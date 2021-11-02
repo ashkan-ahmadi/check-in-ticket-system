@@ -15,10 +15,14 @@
       transition: 175ms ease-out;
       &.checked {
         &-in {
-          opacity: 0.5;
+          color: #777777;
+
+          &:hover {
+            background-color: #fff;
+          }
         }
         &-out {
-          background-color: white;
+          background-color: #fff;
           box-shadow: 0 2px 6px 0 rgb(0 0 0 / 20%);
         }
       }
