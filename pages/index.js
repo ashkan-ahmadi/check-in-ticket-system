@@ -104,7 +104,7 @@ const Home = () => {
         const url = `http://localhost:5000/tickets/${ticketId}` // returns an object, not an array
         const GETRequest = await fetch(url)
         const response = await GETRequest.json()
-        const updatedTicket = await { ...response, ticketCheckedIn: actionToTake }
+        const updatedTicket = await { ...response, ticketCheckedIn: actionToTake, ticketCheckInDateTime: new Date().getTime() }
         const PUTRequest = await fetch(url, {
           method: 'PUT',
           headers: {
@@ -123,7 +123,7 @@ const Home = () => {
           const url = `http://localhost:5000/tickets/${ticketId}` // returns an object, not an array
           const GETRequest = await fetch(url)
           const response = await GETRequest.json()
-          const updatedTicket = await { ...response, ticketCheckedIn: actionToTake }
+          const updatedTicket = await { ...response, ticketCheckedIn: actionToTake, ticketCheckInDateTime: null }
           const PUTRequest = await fetch(url, {
             method: 'PUT',
             headers: {
