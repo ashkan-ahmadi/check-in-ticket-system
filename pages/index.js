@@ -131,7 +131,7 @@ const Home = () => {
             },
             body: JSON.stringify(updatedTicket)
           })
-          toast.success(`Ticket ${response.ticketNumber} checked in`)
+          toast.success(`Ticket ${response.ticketNumber} checked out`)
           await fetchTickets()
         } catch (error) {
           console.error(`Error checking in: ${error}`)
@@ -172,7 +172,7 @@ const Home = () => {
         tickets={tickets}
         checkTicketByTicketId={checkTicketByTicketId} />
       <ToastContainer
-        position="top-left"
+        position="top-center"
         autoClose={3000}
         hideProgressBar={true}
         newestOnTop
