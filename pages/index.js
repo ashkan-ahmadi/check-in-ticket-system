@@ -32,14 +32,9 @@ const Home = () => {
 
   const checkInTicketByTicketNumber = async (ticketNumber) => {
 
-    // if not a 10-digit ticket number, discontinue
-    if (!ticketNumber.length) {
+    // if empty or not a 10-digit ticket number, discontinue
+    if (!ticketNumber.length || ticketNumber.length != 10) {
       toast.error('Enter a valid 10-digit ticket number')
-      return
-    }
-    // if not a 10-digit ticket number, discontinue
-    if (ticketNumber.length != 10) {
-      toast.error('Not a valid 10-digit ticket number')
       return
     }
 
