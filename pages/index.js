@@ -147,6 +147,9 @@ const Home = () => {
 
   useEffect(() => {
     fetchTickets()
+    setInterval(() => {
+      fetchTickets()
+    }, 30 * 1000)
   }, [])
 
   return (
