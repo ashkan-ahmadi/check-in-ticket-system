@@ -27,13 +27,15 @@ const Home = () => {
     })
     setTickets(response)
     setLoading(false)
-
   }
 
-  const checkInTicketByTicketNumber = async (ticketNumber) => {
+  const validateTicketNumberLength = ticketNumber => {
+    return ticketNumber.length === 10
+  }
 
+  const checkInTicketByTicketNumber = async ticketNumber => {
     // if empty or not a 10-digit ticket number, discontinue
-    if (!ticketNumber.length || ticketNumber.length != 10) {
+    if (!validateTicketNumberLength(ticketNumber)) {
       toast.error('Enter a valid 10-digit ticket number')
       return
     }
@@ -62,7 +64,7 @@ const Home = () => {
           headers: {
             'Content-type': 'application/json',
           },
-          body: JSON.stringify(updatedTicket)
+          body: JSON.stringify(updatedTicket),
         })
 
         setLoading(false)
@@ -76,14 +78,12 @@ const Home = () => {
       }
 
       setLoading(false)
-
     } catch (error) {
-      console.error(`There was a problem fetching ticket number: ${error}`);
+      console.error(`There was a problem fetching ticket number: ${error}`)
     }
   }
 
   const checkTicketByTicketId = async (ticketId, action) => {
-
     let actionToTake
 
     if (action == 'in') {
@@ -105,7 +105,7 @@ const Home = () => {
           headers: {
             'Content-type': 'application/json',
           },
-          body: JSON.stringify(updatedTicket)
+          body: JSON.stringify(updatedTicket),
         })
         toast.success(`Ticket checked in`)
         await fetchTickets()
@@ -113,7 +113,8 @@ const Home = () => {
         console.error(`Error checking in: ${error}`)
       }
     } else {
-      if (window.confirm('Are you sure you want to check out this ticket?')) { // have to fix his so it doesnt ask
+      if (window.confirm('Are you sure you want to check out this ticket?')) {
+        // have to fix his so it doesnt ask
         try {
           const url = `http://localhost:5000/tickets/${ticketId}` // returns an object, not an array
           const GETRequest = await fetch(url)
@@ -124,14 +125,13 @@ const Home = () => {
             headers: {
               'Content-type': 'application/json',
             },
-            body: JSON.stringify(updatedTicket)
+            body: JSON.stringify(updatedTicket),
           })
           toast.success(`Ticket ${response.ticketNumber} checked out`)
           await fetchTickets()
         } catch (error) {
           console.error(`Error checking in: ${error}`)
         }
-
       }
     }
   }
@@ -157,30 +157,17 @@ const Home = () => {
       <h1>Check In System</h1>
       <div>
         <p>Enter the ticket number to check in or use the list.</p>
-        <CheckInForm
-          handleSubmit={handleSubmit}
-          loading={loading}
-          handleTicketNumber={handleTicketNumber}
-          ticketNumber={ticketNumber} />
+        <CheckInForm handleSubmit={handleSubmit} loading={loading} handleTicketNumber={handleTicketNumber} ticketNumber={ticketNumber} />
       </div>
       <div className="text-center">
-        <p>Total tickets: {tickets.length} | Checked in: {countCheckedInTickets()} | Checked out: {tickets.length - countCheckedInTickets()}</p>
+        <p>
+          Total tickets: {tickets.length} | Checked in: {countCheckedInTickets()} | Checked out: {tickets.length - countCheckedInTickets()}
+        </p>
       </div>
-      <TicketsTable
-        tickets={tickets}
-        checkTicketByTicketId={checkTicketByTicketId} />
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop
-        closeOnClick={true}
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover />
+      <TicketsTable tickets={tickets} checkTicketByTicketId={checkTicketByTicketId} />
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar={true} newestOnTop closeOnClick={true} rtl={false} pauseOnFocusLoss={false} draggable pauseOnHover />
       <div className={`loading-sign ${loading ? 'loading-sign-visible' : ''} `}>Loading...</div>
-    </div >
+    </div>
   )
 }
 
